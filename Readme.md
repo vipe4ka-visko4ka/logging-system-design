@@ -1,5 +1,17 @@
-1. I would use sentry for capturing and sending errors. Sentry gives more context data and provides more structured error stack trace.
-2. Api gateway takes request from frontend and push request to message broker queue. Message broker should store messages and remove them only on acknowledgement. In this way we are sure that if something will crash, the log will be not lost. Microservice subscribe for message broker queue and write received logs to stderr or stdout based on log type.
-3. I like ELK stack because of full-search which is really useful feature, but ELK costs a lot. Another attractive options is CloudWatch because of it's simplicity and AWS integrations, but it grows dramatically with large log volumes. My choice would be Grafana. Grafana doesn't cost too much with huge log volumes, comparing with other solutions. So my choice is grafana because it's cost-effective and at the same type powerful logs dashboard.
-4. As we will use AWS Grafana, we can use AWS SES for emails sending. AWS Grafana has integration with SES.
-5. As DevOps solution i would choose AWS management for Grafana. The main reason because in this case grafana fully managed by cloud. Scaling, deployment, mataining and security will be done by cloud rather then our devops team. One more reason is AWS integration. Nowdays most application runned in cloud and having integration with cloud is big plus.
+## 1. Client SDK
+I would use Sentry for capturing and sending errors. Sentry provides richer context data and a well-structured error stack trace, which makes debugging much more efficient.
+
+## 2. API Backend
+The **API Gateway** will receive requests from the frontend and push them into a **message broker queue**. The message broker should persist messages until they are acknowledged, ensuring no logs are lost in case of a crash. Microservice responsible for logging subscribes to the message broker queue and store new logs.
+
+## Dashboard
+As i have experience working with **ELK**, **CloudWatch**, and **Grafana**, so my choice will be based on this background:
+- The **ELK stack** provides powerful full-text search capabilities, but it expensive.
+- **AWS CloudWatch** is simple and integrates well with AWS, but costs increase significantly with large log volumes. Also it's nit flexible and don't provide custom visualization options.
+- My preferred choice is **Grafana**, as it is both cost-effective and powerful, offering robust dashboards without the high cost. It has great query capabilities and superior visualization features.
+
+## 4. Email alerts
+As we will use Amazon solution for ** Grafana**, we can leverage **AWS SES (Simple Email Service)** for email notifications. SES scalable and at the same time cost-effective. Also SES will be placed on the same AWS network, that increase transfering speed and enhanced security.
+
+## 5. DevOps
+For DevOps, I would select AWS management for Grafana. Grafana will be fully managed by AWS, covering scaling, deployment, maintenance, and security. This reduces operational overhead for the DevOps team. It also gives us integration with AWS services. It's a strong advantage, especially since most modern applications run in the cloud.
